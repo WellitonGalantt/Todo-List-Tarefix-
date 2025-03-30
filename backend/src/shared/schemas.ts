@@ -1,3 +1,4 @@
+//scheams sao verificacoes ja prontas que podemos usar em varios lugares para validacoes
 import * as yup from 'yup';
 import { IUserRegister } from './interfaces';
 
