@@ -1,4 +1,4 @@
-// npx knex migrate:make categories --knexfile ./src/knexfile.ts
+// npx knex migrate:make tasks --knexfile ./src/knexfile.ts
 import { knex } from "knex";
 import config from "../knexfile";
 

@@ -1,8 +1,9 @@
 import type { Knex } from "knex";
+import { ETableNames } from "../ETableNames";
 
 
 export async function up(knex: Knex): Promise<void> {
-    return knex.schema.createTable('status', table => {
+    return knex.schema.createTable(ETableNames.CATEGORY, (table) => {
         table.increments('id').primary().index();
         table.string('name').notNullable().unique();
     });
