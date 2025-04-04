@@ -1,6 +1,7 @@
 import { Knex } from "knex";
 import dotenv from 'dotenv';
-dotenv.config();
+import path from "path";
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const config: { [key: string]: Knex.Config} = {
     development: {
@@ -9,7 +10,7 @@ const config: { [key: string]: Knex.Config} = {
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
             port: Number(process.env.DB_PORT),
-            password: process.env.DB_PASSWORD,
+            password: String(process.env.DB_PASSWORD),
             database: process.env.DB
         },
         migrations: {

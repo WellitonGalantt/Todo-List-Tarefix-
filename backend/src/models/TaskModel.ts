@@ -46,7 +46,11 @@ export class TaskModels {
     }
 
     static async updateTask(id: number, taskData: Omit<ICreateTask, 'status_id'>): Promise<object | Error> {
+        console.log("\n\tTestandoooooooooo---------------------------------------------------------------------");
         const verifyTask = await this.getTaskById(id);
+        // O this se refere a instancia atual da classe
+        // E ja que o metodo é estático pode ocorrer alguns erros
+        // const verifyTask = await TaskModels.getTaskById(id);
         if (!verifyTask) return new Error('Tarefa não encontrada');
         const result = Knex(ETableNames.TASK).update(taskData).where('id', id).returning('*');
         return result;
