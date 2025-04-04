@@ -1,6 +1,6 @@
 //scheams sao verificacoes ja prontas que podemos usar em varios lugares para validacoes
 import * as yup from 'yup';
-import { IUserRegister } from './interfaces';
+import { IUserRegister } from '../types/userInterfaces';
 
 export const userSchema: yup.ObjectSchema<IUserRegister> = yup.object().shape({
     id: yup.number().optional(),

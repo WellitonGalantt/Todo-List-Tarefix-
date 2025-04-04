@@ -1,7 +1,9 @@
 import { Router } from "express";
 import { AuthController } from "../controllers/AuthControllers";
-import { AuthMiddlewares } from "../middlewares/authMiddlewares";
-import { userSchema } from "../shared/schemas";
+import { Middlewares } from "../middlewares/Middlewares";
+import { userSchema } from "../shared/schemas/authSchemas";
+import { createTaskSchema } from "../shared/schemas/taskSchemas";
+import { TaskControllers } from "../controllers/TaskControllers";
 
 const router = Router();
 
@@ -11,18 +13,30 @@ router.post('/auth/login',
 );
 
 router.post('/auth/register',
-    AuthMiddlewares.validateSchema(userSchema),
+    Middlewares.validateSchema(userSchema),
     (req, res) => AuthController.postRegister(req, res)
 )
 
 //Ver todas as tarefas
-router.get('/tasks')
+router.get('/tasks',
+    (req, res) => TaskControllers.getAllTasks(req, res)
+)
 
-router.get('/task/:id')
+//Ver tarefa por id
+router.get('/task/:id',
+    (req, res) => TaskControllers.getTaskById(req, res)
+)
 
-router.post('/task')
+//criar tarefas
+router.post('/task',
+    Middlewares.validateSchema(createTaskSchema),
+    (req, res) => TaskControllers.createTask(req, res)
+)
 
-router.put('/task/:id')
+//atualizar tarefas
+router.put('/task/:id',
+    (req, res) => TaskControllers.updateTask(req, res)
+)
 
 router.patch('/task/:id/complete')
 

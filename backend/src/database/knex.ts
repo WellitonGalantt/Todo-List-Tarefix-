@@ -2,4 +2,4 @@
 import { knex } from "knex";
 import config from "../knexfile";
 
-export const kenx = knex(config.development);
+export const Knex = knex(config.development);

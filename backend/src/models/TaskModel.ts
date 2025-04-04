@@ -1,0 +1,55 @@
+import { Knex } from "../database/knex";
+import { ICreateTask } from "../shared/types/taskInterfaces";
+import { ETableNames } from "../database/ETableNames";
+import { IReturnData } from "../shared/types/interfaces";
+import { HTTP_VERSION_NOT_SUPPORTED } from "http-status-codes";
+
+export class TaskModels {
+
+    static async createTask(taskData: ICreateTask): Promise<number | Array<string>> {
+
+        const errors = [];
+
+        const existCategory = await Knex(ETableNames.CATEGORY).select('id').where('id', taskData.category_id).first();
+        if (!existCategory) errors.push('Essa categoria não existe');
+
+        const existStatus = await Knex(ETableNames.STATUS).select('id').where('id', taskData.status_id).first();
+        if (!existStatus) errors.push('Esse status não existe');
+
+        if (errors.length > 0) return errors;
+
+        const { title, description, status_id, category_id } = taskData;
+
+        const startDate = new Date();
+
+        const [idTask] = await Knex(ETableNames.TASK).insert(
+            {
+                title,
+                description,
+                status_id,
+                category_id,
+                start_date: startDate.toISOString(),
+                finish_date: startDate.toISOString(),
+                user_id: 1
+            }
+        ).returning('id');
+
+        return idTask;
+    }
+
+    static async getTaskById(id: number): Promise<object | null> {
+        return Knex(ETableNames.TASK).select('*').where('id', id).first().returning('*');
+    }
+
+    static async getAllTasks(): Promise<Object | null> {
+        return Knex(ETableNames.TASK).select('*').returning('*');
+    }
+
+    static async updateTask(id: number, taskData: Omit<ICreateTask, 'status_id'>): Promise<object | Error> {
+        const verifyTask = await this.getTaskById(id);
+        if (!verifyTask) return new Error('Tarefa não encontrada');
+        const result = Knex(ETableNames.TASK).update(taskData).where('id', id).returning('*');
+        return result;
+    }
+
+}

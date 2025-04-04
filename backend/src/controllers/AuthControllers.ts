@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { IUserRegister, IUserLogin } from '../shared/interfaces';
+import { IUserRegister, IUserLogin } from '../shared/types/userInterfaces';
 import { StatusCodes } from 'http-status-codes';
 
 export class AuthController {

@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import * as yup from 'yup';
-import { IUserRegister } from '../shared/interfaces';
+import { IUserRegister } from '../shared/types/userInterfaces';
 
-export class AuthMiddlewares {
+export class Middlewares {
 
-    static validateSchema(schema: yup.ObjectSchema<IUserRegister>) {
+    static validateSchema(schema: yup.ObjectSchema<any>) {
         return async (req: Request, res: Response, next: NextFunction) => {
             try{
                 await schema.validate(req.body, {abortEarly: false});
