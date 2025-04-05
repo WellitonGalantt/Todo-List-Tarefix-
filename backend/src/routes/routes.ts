@@ -38,9 +38,17 @@ router.put('/task/:id',
     (req, res) => TaskControllers.updateTask(req, res)
 )
 
-router.patch('/task/:id/complete')
+router.patch('/task/:id/status',
+    (req, res) => TaskControllers.completeTask(req, res)
+)
 
-router.delete('/task/:id')
+router.patch('/task/:id/category',
+    (req, res) => TaskControllers.switchCategory(req, res)
+)
+
+router.delete('/task/:id',
+    (req, res) => TaskControllers.deleteTaskById(req, res)
+)
 
 export { router };
 

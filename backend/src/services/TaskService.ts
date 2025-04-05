@@ -11,7 +11,7 @@ export class TaskService {
     }
 
     static async getTaskById(id: number): Promise<object | null> {
-        const result = await TaskModels.getTaskById(id);
+        const result = await TaskModels.getTaskById(id); 
         return result;
     }
 
@@ -22,6 +22,21 @@ export class TaskService {
 
     static async updateTask(id: number, taskData: Omit<ICreateTask, 'status_id'>): Promise<object | Error> {
         const result = await TaskModels.updateTask(id, taskData);
+        return result;
+    }
+
+    static async deleteTaskById(id: number): Promise<object | null> {
+        const result = await TaskModels.deleteTaskById(id);
+        return result;
+    }
+
+    static async completeTask(id: number, status_id: number): Promise<object | null> {
+        const result = await TaskModels.completeTask(id, status_id);
+        return result;
+    }
+
+    static async switchCategory(id: number, category_id: number): Promise<object | null> {
+        const result = await TaskModels.switchCategory(id, category_id);
         return result;
     }
 }

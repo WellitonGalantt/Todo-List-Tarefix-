@@ -6,7 +6,7 @@ import { ICreateTask } from '../shared/types/taskInterfaces';
 
 export class TaskControllers {
 
-    static async createTask(req: Request<{}, {}, ICreateTask> , res: Response) {
+    static async createTask(req: Request<{}, {}, ICreateTask>, res: Response) {
 
         const result = await TaskService.createTask(req.body);
         console.log(result);
@@ -62,7 +62,7 @@ export class TaskControllers {
     }
 
     static async updateTask(req: Request<any, {}, Omit<ICreateTask, 'status_id'>>, res: Response) {
-        
+
         const id = Number(req.params.id);
         const result = await TaskService.updateTask(id, req.body);
         if (result instanceof Error) {
@@ -78,5 +78,72 @@ export class TaskControllers {
             data: result
         })
 
+    }
+
+    static async deleteTaskById(req: Request, res: Response) {
+        const id = Number(req.params.id);
+        const result = await TaskService.deleteTaskById(id);
+        if (result instanceof Error) {
+            res.status(StatusCodes.BAD_REQUEST).json({
+                message: 'Erro ao deletar a tarefa',
+                error: result.message
+            })
+            return
+        }
+
+        res.status(StatusCodes.OK).json({
+            message: 'Sucesso',
+            data: result
+        })
+    }
+
+    static async completeTask(req: Request<any, {}, { status_id: number }>, res: Response) {
+        const id = Number(req.params.id);
+        const status_id = req.body.status_id;
+        if (!status_id) {
+            res.status(StatusCodes.BAD_REQUEST).json({
+                message: 'Erro ao completar a tarefa',
+                error: 'status_id é obrigatório'
+            })
+            return
+        }
+        const result = await TaskService.completeTask(id, status_id);
+        if (result instanceof Error) {
+            res.status(StatusCodes.BAD_REQUEST).json({
+                message: 'Erro ao completar a tarefa',
+                error: result.message
+            })
+            return
+        }
+
+        res.status(StatusCodes.OK).json({
+            message: 'Sucesso',
+            data: result
+        })
+    }
+
+    static async switchCategory(req: Request<any, {}, { category_id: number }>, res: Response) {
+        const id = Number(req.params.id);
+        const category_id = req.body.category_id;
+        if (!category_id) {
+            res.status(StatusCodes.BAD_REQUEST).json({
+                message: 'Erro ao mudar a categoria da tarefa',
+                error: 'category_id é obrigatório'
+            })
+            return
+        }
+        const result = await TaskService.switchCategory(id, category_id);
+        if (result instanceof Error) {
+            res.status(StatusCodes.BAD_REQUEST).json({
+                message: 'Erro ao mudar a categoria da tarefa',
+                error: result.message
+            })
+            return
+        }
+
+        res.status(StatusCodes.OK).json({
+            message: 'Sucesso',
+            data: result
+        })
     }
 }
