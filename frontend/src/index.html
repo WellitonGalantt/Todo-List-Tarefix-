@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarefix</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles/style.css">
+</head>
+
+<body>
+
+    <div class="container-todo">
+        <nav id="sidebar" class="side-bar-header">
+            <div class="logo-container">
+                <h1 class="logo">Tarefix</h1>
+            </div>
+            <ul class="menu">
+                <li><a class="active" href="#sessao1">Tarefas</a></li>
+                <li><a href="#sessao2">Criar Tarefas</a></li>
+                <li><a href="#sessao3">Sessão 3</a></li>
+                <li><a href="#sessao4">Sessão 4</a></li>
+            </ul>
+        </nav>
+
+        </header>
+
+        <main id="content-box" class="main-content-box">
+
+            <div class="task-actions">
+                <div class="filter-search">
+                    <input type="text" placeholder="Buscar tarefa...">
+                    <button>Filtrar</button>
+                    <button>Resetar Filtro</button>
+                </div>
+                <button class="create-task-button">Criar Tarefa</button>
+            </div>
+
+            <ul class="task-list">
+                <li class="task-item">
+                    <span class="task-title">Comprar pão</span>
+                    <span class="task-status pendente">Pendente</span>
+                    <div class="task-actions-buttons">
+                        <button class="concluir-button">Concluir</button>
+                        <button class="editar-button">Editar</button>
+                        <button class="excluir-button">Excluir</button>
+                    </div>
+                </li>
+                <li class="task-item">
+                    <span class="task-title">Lavar o carro</span>
+                    <span class="task-status concluida">Concluída</span>
+                    <div class="task-actions-buttons">
+                        <button class="concluir-button" disabled>Concluída</button>
+                        <button class="editar-button">Editar</button>
+                        <button class="excluir-button">Excluir</button>
+                    </div>
+                </li>
+                <li class="task-item">
+                    <span class="task-title">Estudar JavaScript</span>
+                    <span class="task-status pendente">Pendente</span>
+                    <div class="task-actions-buttons">
+                        <button class="concluir-button">Concluir</button>
+                        <button class="editar-button">Editar</button>
+                        <button class="excluir-button">Excluir</button>
+                    </div>
+                </li>
+            </ul>
+
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

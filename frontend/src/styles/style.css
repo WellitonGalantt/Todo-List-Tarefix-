@@ -1,0 +1,230 @@
+:root {
+    --preto-primario: #1B1C1D;
+    --preto-secundario: #282A2C;
+    --branco-primario: #f7f7f7;
+    --branco-segundario: #A2A9AC;
+    --azul-hover: #007bff;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: none;
+    list-style: none;
+    margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+
+.container-todo {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--preto-primario);
+}
+
+.side-bar-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+    height: 100%;
+    background-color: var(--preto-secundario);
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    position: fixed; /* Mantém a sidebar fixa */
+    top: 0;
+    left: 0;
+    padding: 20px;
+}
+
+.logo-container {
+    margin-bottom: 20px;
+}
+
+.logo {
+    max-width: 100%;
+    height: auto;
+    display: block; /* Remove espaço extra abaixo da imagem */
+    color: var(--branco-primario);
+    font-size: 2.3rem;
+    font-weight: bold;
+}
+
+.menu {
+    width: 100%;
+}
+
+.menu li {
+    margin-bottom: 10px;
+}
+
+.menu li a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: var(--branco-primario);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.menu li a:hover {
+    /* color: var(--preto-secundario); */
+    background-color: var(--branco-segundario); /* Um cinza mais claro ao passar o mouse */
+}
+
+.menu li a.active {
+    background-color: var(--azul-hover); /* Cor de destaque para o item ativo */
+    color: var(--branco-primario);
+}
+
+/* ---------------- */
+
+#content-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    height: 100%;
+    margin-left: 250px; /* Espaço para a sidebar */
+    padding: 20px;
+    background-color: var(--preto-primario);
+}
+
+.task-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 75%;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.filter-search input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.filter-search button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 5px;
+}
+
+.filter-search button:hover {
+    background-color: #0056b3;
+}
+
+.task-actions .create-task-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.task-actions .create-task-button:hover {
+    background-color: #1e7e34;
+}
+
+.task-list {
+    width: 75%;
+    padding: 20px;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.task-item:last-child {
+    border-bottom: none;
+}
+
+.task-title {
+    flex-grow: 1;
+}
+
+.task-status {
+    margin-left: 15px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.task-status.pendente {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.task-status.concluida {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.task-actions-buttons {
+    margin-left: 20px;
+}
+
+.task-actions-buttons button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+
+.concluir-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.concluir-button:hover {
+    background-color: #1e7e34;
+}
+
+.concluir-button:disabled {
+    background-color: #ccc;
+}
+
+.editar-button {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.editar-button:hover {
+    background-color: #e0a800;
+}
+
+.excluir-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.excluir-button:hover {
+    background-color: #c82333;
+}

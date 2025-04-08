@@ -2,7 +2,6 @@ import { Knex } from "../database/knex";
 import { ICreateTask } from "../shared/types/taskInterfaces";
 import { ETableNames } from "../database/ETableNames";
 import { IReturnData } from "../shared/types/interfaces";
-import { HTTP_VERSION_NOT_SUPPORTED } from "http-status-codes";
 
 export class TaskModels {
 

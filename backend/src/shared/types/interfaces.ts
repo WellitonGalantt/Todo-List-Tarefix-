@@ -1,8 +1,8 @@
 
-export interface IReturnData {
+export interface IReturnData<T> {
     sucess: boolean;
     data: object;
     status: number;
     message: string;
-    error: Array<string>;
+    error: T | null;
 }
