@@ -2,25 +2,32 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { TaskService } from '../services/TaskService';
 import { ICreateTask } from '../shared/types/taskInterfaces';
+import { IReturnData } from "../shared/types/interfaces";
 
 
 export class TaskControllers {
 
-    static async createTask(req: Request<{}, {}, ICreateTask>, res: Response) {
+    static async createTask(req: Request<{}, {}, ICreateTask>, res: Response<IReturnData>) {
 
         const result = await TaskService.createTask(req.body);
         console.log(result);
         if (result instanceof Array && result.length > 0) {
             res.status(StatusCodes.BAD_REQUEST).json({
-                message: 'Erro ao criar a tarefa',
-                error: result
+                sucess: false,
+                data: [],
+                status: StatusCodes.BAD_REQUEST,
+                message: "Erro ao criar a tarefa!",
+                error: [result]
             })
             return
         }
 
         res.status(StatusCodes.CREATED).json({
-            message: 'Sucesso',
-            data: [result]
+            sucess: true,
+            data: [{ "id": result }],
+            status: StatusCodes.CREATED,
+            message: "Tarefa criada com sucesso!",
+            error: []
         })
     }
 
@@ -31,15 +38,21 @@ export class TaskControllers {
 
         if (!result) {
             res.status(StatusCodes.BAD_REQUEST).json({
-                message: 'Erro ao buscar a tarefa',
-                error: 'Tarefa não encontrada'
+                sucess: false,
+                data: [],
+                status: StatusCodes.BAD_REQUEST,
+                message: "Tarefa não encontrada!",
+                error: ["Erro ao encontrar a tarefa"]
             })
             return
         }
 
         res.status(StatusCodes.OK).json({
-            message: 'Sucesso',
-            data: [result]
+            sucess: true,
+            data: [result],
+            status: StatusCodes.OK,
+            message: "Tarefa encontrada com sucesso!",
+            error: []
         })
     }
 
@@ -49,15 +62,21 @@ export class TaskControllers {
 
         if (!result) {
             res.status(StatusCodes.BAD_REQUEST).json({
-                message: 'Erro ao buscar as tarefas',
-                error: 'Ainda nao à nenhuma tarefa cadastrada'
+                sucess: false,
+                data: [],
+                status: StatusCodes.BAD_REQUEST,
+                message: "Voce ainda nao tem nenhuma tarefa!",
+                error: ["Erro ao buscar as tarefas"]
             })
             return
         }
 
         res.status(StatusCodes.OK).json({
-            message: 'Sucesso',
-            data: result
+            sucess: true,
+            data: [result],
+            status: StatusCodes.OK,
+            message: "Tarefas encontradas com sucesso!",
+            error: []
         })
     }
 
@@ -67,15 +86,21 @@ export class TaskControllers {
         const result = await TaskService.updateTask(id, req.body);
         if (result instanceof Error) {
             res.status(StatusCodes.BAD_REQUEST).json({
-                message: 'Erro ao atualizar a tarefa',
-                error: result.message
+                sucess: false,
+                data: [],
+                status: StatusCodes.BAD_REQUEST,
+                message: "Erro ao atualizar a tarefa!",
+                error: [result.message]
             })
             return
         }
 
         res.status(StatusCodes.OK).json({
-            message: 'Sucesso',
-            data: result
+            sucess: true,
+            data: [result],
+            status: StatusCodes.OK,
+            message: "Tarefa atualizada com sucesso!",
+            error: []
         })
 
     }
@@ -85,15 +110,21 @@ export class TaskControllers {
         const result = await TaskService.deleteTaskById(id);
         if (result instanceof Error) {
             res.status(StatusCodes.BAD_REQUEST).json({
-                message: 'Erro ao deletar a tarefa',
-                error: result.message
+                sucess: false,
+                data: [],
+                status: StatusCodes.BAD_REQUEST,
+                message: "Erro ao deletar a tarefa!",
+                error: [result.message]
             })
             return
         }
 
         res.status(StatusCodes.OK).json({
-            message: 'Sucesso',
-            data: result
+            sucess: true,
+            data: [result],
+            status: StatusCodes.OK,
+            message: "Tarefa deletada com sucesso!",
+            error: []
         })
     }
 
@@ -102,23 +133,32 @@ export class TaskControllers {
         const status_id = req.body.status_id;
         if (!status_id) {
             res.status(StatusCodes.BAD_REQUEST).json({
-                message: 'Erro ao completar a tarefa',
-                error: 'status_id é obrigatório'
+                sucess: false,
+                data: [],
+                status: StatusCodes.BAD_REQUEST,
+                message: "Erro ao completar a tarefa!",
+                error: ["Deve ser emviado um status valido"]
             })
             return
         }
         const result = await TaskService.completeTask(id, status_id);
         if (result instanceof Error) {
             res.status(StatusCodes.BAD_REQUEST).json({
-                message: 'Erro ao completar a tarefa',
-                error: result.message
+                sucess: false,
+                data: [],
+                status: StatusCodes.BAD_REQUEST,
+                message: "Erro ao completar a tarefa!",
+                error: [result.message]
             })
             return
         }
 
         res.status(StatusCodes.OK).json({
-            message: 'Sucesso',
-            data: result
+            sucess: true,
+            data: [result],
+            status: StatusCodes.OK,
+            message: "Tarefa completada com sucesso!",
+            error: []
         })
     }
 
@@ -127,23 +167,32 @@ export class TaskControllers {
         const category_id = req.body.category_id;
         if (!category_id) {
             res.status(StatusCodes.BAD_REQUEST).json({
-                message: 'Erro ao mudar a categoria da tarefa',
-                error: 'category_id é obrigatório'
+                sucess: false,
+                data: [],
+                status: StatusCodes.BAD_REQUEST,
+                message: "Erro ao mudar a categoria!",
+                error: ["Deve ser emviado uma categoria valida"]
             })
             return
         }
         const result = await TaskService.switchCategory(id, category_id);
         if (result instanceof Error) {
             res.status(StatusCodes.BAD_REQUEST).json({
-                message: 'Erro ao mudar a categoria da tarefa',
-                error: result.message
+                sucess: false,
+                data: [],
+                status: StatusCodes.BAD_REQUEST,
+                message: "Erro ao mudar a categoria!",
+                error: [result.message]
             })
             return
         }
 
         res.status(StatusCodes.OK).json({
-            message: 'Sucesso',
-            data: result
+            sucess: true,
+            data: [result],
+            status: StatusCodes.OK,
+            message: "Categoria trocada com sucesso!",
+            error: []
         })
     }
 }
