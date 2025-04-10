@@ -1,7 +1,14 @@
 import express from 'express';
 import { router } from './routes/routes';
+import cors from 'cors';
 
 const app = express();
+
+const corsConfig = {
+    origin: 'http://localhost:3333',
+}
+
+app.use(cors());// Permite que o frontend acesse o backend
 
 app.use(express.json());
 

@@ -8,7 +8,6 @@ export class TaskService {
 
     static async createTask(taskData: ICreateTask): Promise<number | Array<string>> {
         const result = await TaskModels.createTask(taskData);
-        console.log(result);
         return result;
     }
 

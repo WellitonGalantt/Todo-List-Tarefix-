@@ -37,11 +37,11 @@ export class TaskModels {
     }
 
     static async getTaskById(id: number): Promise<object | null> {
-        return Knex(ETableNames.TASK).select('*').where('id', id).first().returning('*');
+        return await Knex(ETableNames.TASK).select('*').where('id', id).first().returning('*');
     }
 
     static async getAllTasks(): Promise<Object | null> {
-        return Knex(ETableNames.TASK).select('*').returning('*');
+        return await Knex(ETableNames.TASK).select('*').returning('*');
     }
 
     static async updateTask(id: number, taskData: Omit<ICreateTask, 'status_id'>): Promise<object | Error> {
@@ -64,7 +64,7 @@ export class TaskModels {
         if (!statusVerify) return new Error('Status não encontrado');
         const verifyTask = await this.getTaskById(id);
         if (!verifyTask) return new Error('Tarefa não encontrada');
-        const result = Knex(ETableNames.TASK).update({status_id: status_id}).where('id', id).returning('*');
+        const result = await Knex(ETableNames.TASK).update({status_id: status_id}).where('id', id).returning('*');
         return result;
     }
 
@@ -73,7 +73,7 @@ export class TaskModels {
         if (!categoryVerify) return new Error('Categoria não encontrada');
         const verifyTask = await this.getTaskById(id);
         if (!verifyTask) return new Error('Tarefa não encontrada');
-        const result = Knex(ETableNames.TASK).update({category_id: category_id}).where('id', id).returning('*');
+        const result = await Knex(ETableNames.TASK).update({category_id: category_id}).where('id', id).returning('*');
         return result;
     }
 

@@ -4,6 +4,8 @@ import { Middlewares } from "../middlewares/Middlewares";
 import { userSchema } from "../shared/schemas/authSchemas";
 import { createTaskSchema } from "../shared/schemas/taskSchemas";
 import { TaskControllers } from "../controllers/TaskControllers";
+import { StatusControllers } from "../controllers/StatusControllers";
+import { CategoryControllers } from "../controllers/CategoryControllers";
 
 const router = Router();
 
@@ -48,6 +50,16 @@ router.patch('/task/:id/category',
 
 router.delete('/task/:id',
     (req, res) => TaskControllers.deleteTaskById(req, res)
+)
+
+// Rotas de status e categorias
+
+router.get('/status',
+    (req, res) => StatusControllers.getAllStatus(req, res)
+)
+
+router.get('/category',
+    (req, res) => CategoryControllers.getAllCategories(req, res)
 )
 
 export { router };
