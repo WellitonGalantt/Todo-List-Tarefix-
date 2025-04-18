@@ -167,7 +167,7 @@ body {
     color: var(--branco-primario)
 }
 
-.task-status {
+.task-status, .task-categoria {
     margin-left: 15px;
     padding: 5px 10px;
     border-radius: 5px;
@@ -183,6 +183,11 @@ body {
 .task-status.concluida {
     background-color: #d4edda;
     color: #155724;
+}
+
+.task-categoria{
+    background-color: #bac8e2;
+    color: #14308b;
 }
 
 .task-actions-buttons {
