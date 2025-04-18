@@ -45,7 +45,22 @@ document.addEventListener("DOMContentLoaded", () => {
         return res.json();
       })
       .then((data) => {
-        listAllTask(data.data);
+        const tasks = data.data[0];
+        tasks.sort((a, b) => {
+          if (a.status_id == 2 && b.status_id == 1) {
+            return -1;
+          }
+
+          if (a.status_id == 1 && b.status_id == 2) {
+            return 1;
+          }
+
+          if (a.status_id == 2 && b.status_id == 2) {
+            return 0;
+          }
+        });
+
+        listAllTask(tasks);
       })
       .catch((err) => {
         console.log(err);
@@ -54,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function listAllTask(tasks) {
     taskContainerEl.innerHTML = "";
-    tasks[0].forEach((task) => {
+    tasks.forEach((task) => {
       const status = getTaskStatus(task.status_id);
       const category = getTaskCategory(task.category_id);
       const taskItem = document.createElement("li");
@@ -81,10 +96,12 @@ document.addEventListener("DOMContentLoaded", () => {
     taskContainerEl.addEventListener("click", (e) => {
       const classElClicked = e.target.classList.value;
       const taskBoxElement = e.target.parentNode.parentNode;
+      const statusId =
+        taskBoxElement.querySelector(".task-status").dataset.statusId;
       const idElClicked = taskBoxElement.dataset.taskId;
 
       if (classElClicked.includes("concluir-button")) {
-        completeTask(idElClicked);
+        completeTask(idElClicked, statusId);
       }
 
       if (classElClicked.includes("editar-button")) {
@@ -167,24 +184,21 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!res.ok) {
           console.error(`Erro na requisição: ${res.status}`);
         }
-        getAllTasks();
-        createTaskFormEl.removeEventListener("submit", createTaskFun);
         return res.json();
       })
       .then((data) => {
         if (!data.sucess) {
           console.error(`${data.message}\nerror: ${data.error[0]}`);
         } else {
+          getAllTasks();
           createTaskModalEl.style.display = "none";
           createTaskFormEl.reset();
-          // console.log(data);
+          createTaskFormEl.removeEventListener("submit", createTaskFun);
         }
       })
       .catch((error) => {
         console.error("Erro ao criar tarefa:", error);
       });
-
-    
   }
 
   let boundEditTaskFun;
@@ -193,26 +207,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const task = await getOneTask(id);
     document.getElementById("taskTitle").value = task.title;
     document.getElementById("taskDescription").value = task.description;
-    const categorySelect = document
-      .getElementById("taskCategory")
-      .getElementsByTagName("option");
-    const statusSelect = document
-      .getElementById("taskStatus")
-      .getElementsByTagName("option");
+    const categorySelect = document.getElementById("taskCategory");
+    const statusSelect = document.getElementById("taskStatus");
 
     if (categorySelect.length > 0) {
-      for (let i = 0; i < categorySelect.length; i++) {
-        if (categorySelect[i].dataset.categoryId == task.category_id) {
-          categorySelect[i].selected = true;
-        }
+      const optionCategory = categorySelect.querySelector(
+        `option[data-category-id="${task.category_id}"]`
+      );
+      if (optionCategory) {
+        optionCategory.selected = true;
       }
     }
 
     if (statusSelect.length > 0) {
-      for (let i = 0; i < statusSelect.length; i++) {
-        if (statusSelect[i].dataset.statusId == task.status_id) {
-          statusSelect[i].selected = true;
-        }
+      const optionStatus = statusSelect.querySelector(
+        `option[data-status-id="${task.status_id}"]`
+      );
+      if (optionStatus) {
+        optionStatus.selected = true;
       }
     }
 
@@ -222,7 +234,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function editTaskFun(event, id) {
     event.preventDefault();
-    console.log("Editar!");
 
     const title = document.getElementById("taskTitle").value;
     const description = document.getElementById("taskDescription").value;
@@ -246,36 +257,51 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!res.ok) {
           console.error(`Erro na requisicao: ${res.status}`);
         }
-        getAllTasks();
-        createTaskModalEl.style.display = "none";
-        createTaskFormEl.reset();
-        createTaskFormEl.removeEventListener("submit", boundEditTaskFun);
+
         return res.json();
       })
       .then((data) => {
-        console.log(data.message);
+        if (!data.sucess) {
+          console.error(`${data.message}\nerror: ${data.error[0]}`);
+        } else {
+          getAllTasks();
+          createTaskModalEl.style.display = "none";
+          createTaskFormEl.reset();
+          createTaskFormEl.removeEventListener("submit", boundEditTaskFun);
+        }
       })
       .catch((err) => {
         console.error(err);
       });
   }
 
-  function completeTask(id) {
+  function completeTask(id, statusId) {
+    let status_id;
+    if (statusId == 1) {
+      status_id = 2;
+    } else if (statusId == 2) {
+      status_id = 1;
+    }
+
     fetch(`http://localhost:3333/task/${id}/status`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ status_id: 1 }),
+      body: JSON.stringify({ status_id }),
     })
       .then((res) => {
         if (!res.ok) {
           console.error(`Erro na requisição: ${res.status}`);
         }
-        loadAllData();
         return res.json();
       })
       .then((data) => {
+        if (!data.sucess) {
+          console.error(`${data.message}\nerror: ${data.error[0]}`);
+        } else {
+          loadAllData();
+        }
         // console.log(data.message)
       });
   }

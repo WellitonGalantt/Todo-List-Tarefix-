@@ -147,13 +147,16 @@ body {
 }
 
 .task-list {
+    max-height: 60vh;
     width: 75%;
     padding: 20px;
+    overflow-y: auto;
 }
 
 .task-item {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 15px;
     border-bottom: 1px solid #eee;
 }
@@ -164,6 +167,7 @@ body {
 
 .task-title {
     flex-grow: 1;
+    max-width: 270px;
     color: var(--branco-primario)
 }
 
