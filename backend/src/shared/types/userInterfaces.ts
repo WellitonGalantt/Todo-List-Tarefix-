@@ -1,11 +1,11 @@
-
+import { Request } from 'express';
 
 export interface IUserRegister {
     id?: number;
     name: string
     email: string;
     password: string;
-    confirmPassword: string;
+    confirmPassword?: string;
 }
 
 export interface IUserLogin {

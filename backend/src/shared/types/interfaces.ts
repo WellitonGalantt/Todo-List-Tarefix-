@@ -1,3 +1,4 @@
+import { Request } from "express";
 
 export interface IReturnData {
     sucess: boolean;
@@ -5,4 +6,13 @@ export interface IReturnData {
     status: number;
     message: string;
     error: Array<any>;
+}
+
+export interface ITokenPayload {
+    id: number;
+    role: string;
+}
+
+export interface AuthRequest extends Request {
+    user?: ITokenPayload;
 }

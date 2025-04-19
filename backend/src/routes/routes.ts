@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { AuthController } from "../controllers/AuthControllers";
 import { Middlewares } from "../middlewares/Middlewares";
-import { userSchema } from "../shared/schemas/authSchemas";
+import { registerSchema, loginSchema } from "../shared/schemas/authSchemas";
 import { createTaskSchema } from "../shared/schemas/taskSchemas";
 import { TaskControllers } from "../controllers/TaskControllers";
 import { StatusControllers } from "../controllers/StatusControllers";
@@ -11,16 +11,18 @@ const router = Router();
 
 //Autenticacao
 router.post('/auth/login',
-    (req, res) => AuthController.postLogin(req, res)
+    Middlewares.validateSchema(loginSchema),
+    (req, res) => AuthController.loginUser(req, res)
 );
 
 router.post('/auth/register',
-    Middlewares.validateSchema(userSchema),
-    (req, res) => AuthController.postRegister(req, res)
+    Middlewares.validateSchema(registerSchema),
+    (req, res) => AuthController.registerUser(req, res)
 )
 
 //Ver todas as tarefas
 router.get('/tasks',
+    Middlewares.authValidate,
     (req, res) => TaskControllers.getAllTasks(req, res)
 )
 

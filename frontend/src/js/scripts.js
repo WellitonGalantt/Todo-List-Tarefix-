@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return res.json();
           })
           .then((data) => {
-            console.log(data.message);
+            // console.log(data.message);
           })
           .catch((error) => {
             console.error("Erro ao deletar a tarefa:", error);
