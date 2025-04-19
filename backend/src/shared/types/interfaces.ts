@@ -1,4 +1,5 @@
 import { Request } from "express";
+import { JwtPayload } from "jsonwebtoken";
 
 export interface IReturnData {
     sucess: boolean;
@@ -8,7 +9,7 @@ export interface IReturnData {
     error: Array<any>;
 }
 
-export interface ITokenPayload {
+export interface ITokenPayload extends  JwtPayload{
     id: number;
     role: string;
 }

@@ -1,6 +1,5 @@
 import { TaskModels } from "../models/TaskModel";
 import { ICreateTask } from "../shared/types/taskInterfaces";
-import { IReturnData } from "../shared/types/interfaces";
 
 
 
@@ -11,33 +10,33 @@ export class TaskService {
         return result;
     }
 
-    static async getTaskById(id: number): Promise<object | null> {
-        const result = await TaskModels.getTaskById(id); 
+    static async getTaskById(taskId: number, userId: number): Promise<object | null> {
+        const result = await TaskModels.getTaskById(taskId, userId); 
         return result;
     }
 
-    static async getAllTasks(): Promise<Object | null> {
-        const result = await TaskModels.getAllTasks();
+    static async getAllTasks(userId: number): Promise<Object | null> {
+        const result = await TaskModels.getAllTasks(userId);
         return result;
     }
 
-    static async updateTask(id: number, taskData: Omit<ICreateTask, 'status_id'>): Promise<object | Error> {
-        const result = await TaskModels.updateTask(id, taskData);
+    static async updateTask(taskId: number, userId: number, taskData: Omit<ICreateTask, 'status_id'>): Promise<object | Error> {
+        const result = await TaskModels.updateTask(taskId, userId, taskData);
         return result;
     }
 
-    static async deleteTaskById(id: number): Promise<object | null> {
-        const result = await TaskModels.deleteTaskById(id);
+    static async deleteTaskById(taskId: number, userId: number): Promise<object | null> {
+        const result = await TaskModels.deleteTaskById(taskId, userId);
         return result;
     }
 
-    static async completeTask(id: number, status_id: number): Promise<object | null> {
-        const result = await TaskModels.completeTask(id, status_id);
+    static async completeTask(taskId: number, userId: number, status_id: number): Promise<object | null> {
+        const result = await TaskModels.completeTask(taskId, userId, status_id);
         return result;
     }
 
-    static async switchCategory(id: number, category_id: number): Promise<object | null> {
-        const result = await TaskModels.switchCategory(id, category_id);
+    static async switchCategory(taskId: number, userId: number, category_id: number): Promise<object | null> {
+        const result = await TaskModels.switchCategory(taskId, userId, category_id);
         return result;
     }
 }

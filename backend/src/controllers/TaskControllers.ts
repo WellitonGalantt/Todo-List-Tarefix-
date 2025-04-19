@@ -2,15 +2,15 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { TaskService } from '../services/TaskService';
 import { ICreateTask } from '../shared/types/taskInterfaces';
-import { IReturnData } from "../shared/types/interfaces";
+import { IReturnData, ITokenPayload} from "../shared/types/interfaces";
 
 
 export class TaskControllers {
 
     static async createTask(req: Request<{}, {}, ICreateTask>, res: Response<IReturnData>) {
-
+        const userId = (req.user as ITokenPayload)?.userId;
+        req.body.user_id = userId;
         const result = await TaskService.createTask(req.body);
-        console.log(result);
         if (result instanceof Array && result.length > 0) {
             res.status(StatusCodes.BAD_REQUEST).json({
                 sucess: false,
@@ -24,7 +24,7 @@ export class TaskControllers {
 
         res.status(StatusCodes.CREATED).json({
             sucess: true,
-            data: [{ "id": result }],
+            data: [result],
             status: StatusCodes.CREATED,
             message: "Tarefa criada com sucesso!",
             error: []
@@ -33,8 +33,9 @@ export class TaskControllers {
 
     static async getTaskById(req: Request, res: Response) {
 
-        const id = Number(req.params.id);
-        const result = await TaskService.getTaskById(id);
+        const taskId = Number(req.params.id);
+        const userId = (req.user as ITokenPayload)?.userId;
+        const result = await TaskService.getTaskById(taskId, userId);
 
         if (!result) {
             res.status(StatusCodes.BAD_REQUEST).json({
@@ -58,7 +59,8 @@ export class TaskControllers {
 
     static async getAllTasks(req: Request, res: Response) {
 
-        const result = await TaskService.getAllTasks();
+        const userId = (req.user as ITokenPayload)?.userId;
+        const result = await TaskService.getAllTasks(userId);
 
         if (!result) {
             res.status(StatusCodes.BAD_REQUEST).json({
@@ -82,8 +84,9 @@ export class TaskControllers {
 
     static async updateTask(req: Request<any, {}, Omit<ICreateTask, 'status_id'>>, res: Response) {
 
-        const id = Number(req.params.id);
-        const result = await TaskService.updateTask(id, req.body);
+        const taskId = Number(req.params.id);
+        const userId = (req.user as ITokenPayload)?.userId;
+        const result = await TaskService.updateTask(taskId, userId, req.body);
         if (result instanceof Error) {
             res.status(StatusCodes.BAD_REQUEST).json({
                 sucess: false,
@@ -106,8 +109,9 @@ export class TaskControllers {
     }
 
     static async deleteTaskById(req: Request, res: Response) {
-        const id = Number(req.params.id);
-        const result = await TaskService.deleteTaskById(id);
+        const taskId = Number(req.params.id);
+        const userId = (req.user as ITokenPayload)?.userId;
+        const result = await TaskService.deleteTaskById(taskId, userId);
         if (result instanceof Error) {
             res.status(StatusCodes.BAD_REQUEST).json({
                 sucess: false,
@@ -129,7 +133,8 @@ export class TaskControllers {
     }
 
     static async completeTask(req: Request<any, {}, { status_id: number }>, res: Response) {
-        const id = Number(req.params.id);
+        const taskId = Number(req.params.id);
+        const userId = (req.user as ITokenPayload)?.userId;
         const status_id = req.body.status_id;
         if (!status_id) {
             res.status(StatusCodes.BAD_REQUEST).json({
@@ -141,7 +146,7 @@ export class TaskControllers {
             })
             return
         }
-        const result = await TaskService.completeTask(id, status_id);
+        const result = await TaskService.completeTask(taskId, userId, status_id);
         if (result instanceof Error) {
             res.status(StatusCodes.BAD_REQUEST).json({
                 sucess: false,
@@ -163,7 +168,8 @@ export class TaskControllers {
     }
 
     static async switchCategory(req: Request<any, {}, { category_id: number }>, res: Response) {
-        const id = Number(req.params.id);
+        const taskId = Number(req.params.id);
+        const userId = (req.user as ITokenPayload)?.userId;
         const category_id = req.body.category_id;
         if (!category_id) {
             res.status(StatusCodes.BAD_REQUEST).json({
@@ -175,7 +181,7 @@ export class TaskControllers {
             })
             return
         }
-        const result = await TaskService.switchCategory(id, category_id);
+        const result = await TaskService.switchCategory(taskId, userId, category_id);
         if (result instanceof Error) {
             res.status(StatusCodes.BAD_REQUEST).json({
                 sucess: false,

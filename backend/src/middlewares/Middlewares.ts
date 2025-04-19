@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import * as yup from 'yup';
-import { IUserRegister } from '../shared/types/userInterfaces';
 import { StatusCodes } from 'http-status-codes';
 import { IReturnData } from '../shared/types/interfaces';
 import { AuthRequest } from '../shared/types/interfaces';
@@ -29,23 +28,33 @@ export class Middlewares {
     }
 
     static authValidate(req: AuthRequest, res: Response, next: NextFunction){
-        const token = req.headers.authorization?.split(' ')[1];
+        const authHeader = req.headers.authorization;
+        const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : authHeader;
 
         if(!token){
-            res.status(StatusCodes.BAD_REQUEST).json({
+            res.status(StatusCodes.UNAUTHORIZED).json({
                 sucess: false,
                 data: [],
-                status: StatusCodes.BAD_REQUEST,
+                status: StatusCodes.UNAUTHORIZED,
                 message: "Erro pegar o token no header!",
                 error: new Error('Token nao encontrado!')
             })
             return;
         }
-        console.log('Token:' + token)
+        // console.log('Token:' + token)
 
-        const tokenVerify = verifyToken(token);
-        console.log('Token verify: ' + tokenVerify)
-
+        const tokenDecoded = verifyToken(token);
+        if(tokenDecoded instanceof Error){
+            res.status(StatusCodes.UNAUTHORIZED).json({
+                sucess: false,
+                data: [],
+                status: StatusCodes.UNAUTHORIZED,
+                message: "Erro ao decodificar o token!",
+                error: tokenDecoded
+            })
+            return;
+        }
+        req.user = tokenDecoded;
         next();
         return;
     }

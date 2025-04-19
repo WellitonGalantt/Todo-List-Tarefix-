@@ -11,18 +11,21 @@ export const generateToken = (id: number, role: string): string | Error => {
     if (!JWT_SECRET) {
         return new Error('Nao foi encontrado a SECRET key!')
     }
-    console.log('secret '+ JWT_SECRET)
+
     return jwt.sign({ userId: id, role: role }, JWT_SECRET, { expiresIn: '1h' });
 }
 
-export const verifyToken = (token: string): string | Error => {
+export const verifyToken = (token: string): ITokenPayload | Error => {
     if (!JWT_SECRET) {
         return new Error('Nao foi encontrado a SECRET key!')
     }
+    try {
+        return jwt.verify(token, JWT_SECRET) as ITokenPayload;
+    }
+    catch (error: any) {
+        return error;
+    }
 
-    console.log('secret '+ JWT_SECRET)
-    const decoded = jwt.verify(token, JWT_SECRET) as ITokenPayload;
-    console.log('DESCODED '+decoded)
-    return ''
+
 
 }
