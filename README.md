@@ -2,7 +2,7 @@
 
 ## 🌟 Sobre o Projeto
 
-Tarefix é um sistema backend desenvolvido para fins de estudos e desafio pessoal, o objetivo do sistema é poder gerenciar e organizar tarefas pessoais;
+Tarefix é um sistema backend desenvolvido para fins de estudos e desafio pessoal focado em backend, o objetivo do sistema é poder gerenciar e organizar tarefas pessoais;
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -64,25 +64,31 @@ Instruções claras e passo a passo para que alguém possa rodar seu backend loc
     ```
 6.  **Endpoints da API :**
     * http://localhost:3333
-        ** ( POST ) /auth/register : Registro de usuario;
-        ** ( POST ) /auth/login : Login de usuario e gr acao de token de acesso para autenticação;
-        ** ( GET ) /tasks : Pegar todas as as tarefas relacionadas ao usuario autenticado;
-        ** ( GET ) /task/id : Pegar uma unica tarefa relacionada ao usuario passando o id da tarefa;
-        ** ( POST ) /task : Criação de tarefa;
-        ** ( PUT ) /tasks/id : Atualizar tarefa passando o id da tarefa;
-        ** ( PATCH ) /task/id/status : Alterar o status da tarefa passando o id da tarefa;
-        ** ( PATCH ) /task/id/category : Alterar a categoria da tarefa passando o id da tarefa;
-        ** ( DELETE ) /tasks/id : Excluindo uma terefa passando o id da tarefa;
-        ** ( GET ) /status : Pegar todos os status;
-        ** ( GET ) /category : Pegar todos as categorias;
+        * ( POST ) /auth/register : Registro de usuario;
+        * ( POST ) /auth/login : Login de usuario e gr acao de token de acesso para autenticação;
+        * ( GET ) /tasks : Pegar todas as as tarefas relacionadas ao usuario autenticado;
+        * ( GET ) /task/id : Pegar uma unica tarefa relacionada ao usuario passando o id da tarefa;
+        * ( POST ) /task : Criação de tarefa;
+        * ( PUT ) /tasks/id : Atualizar tarefa passando o id da tarefa;
+        * ( PATCH ) /task/id/status : Alterar o status da tarefa passando o id da tarefa;
+        * ( PATCH ) /task/id/category : Alterar a categoria da tarefa passando o id da tarefa;
+        * ( DELETE ) /tasks/id : Excluindo uma terefa passando o id da tarefa;
+        * ( GET ) /status : Pegar todos os status;
+        * ( GET ) /category : Pegar todos as categorias;
 
 
 ## 🧪 Testes
     * Nao foram feitos testes automatizados ainda;
 
 ## 🛠 Melhorias Futuras
-    * Criçãoo de testes automatizados;
+    * Crição de testes automatizados;
     * Front End;
     * Criação/exclusão de status personalizados;
     * Criação/exclusão de categorias personalizadas;
     * Colocar um prazo da tarefa;
+
+## 🏔️ Desafios Que Tive
+
+Fiz esse projeto com intuito de estudar e aprender mais sobre desenvolvimento de apis, tive alguns desafios mas aprendi muitas coisas novas e melhorei meu entendimento no que eu ja sabia ou achava que sabia;
+O que eu mais tive dificuldade e tive que ir um pouco mais atras foi sobre a autenticação, entender como funciona o JWT, como é assinado, como ele salva os dados e como acessa o payload;
+Fora isso aprendi e desenvolvi melhor alguns aspectos como organização de arquivos e funções do projeto, tipagem dos dados, resposta do servidor com estrutura padronizada, melhorias de codigos e muitas outras coisas;
